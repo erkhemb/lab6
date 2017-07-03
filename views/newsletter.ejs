@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Newsletter</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <form action="/newsletter" method="post">
+    <input type="hidden" name="_csrf" value=<%=csrftoken %> />
+
+    <label for="email">Subscribe Email:</label>
+    <input type="text" id="email" name="email" placeholder="Enter your email address" />
+
+    <input type="submit" value="Submit" />
+  </form>
+</body>
+
+</html>
