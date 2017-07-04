@@ -4,7 +4,7 @@ var fs = require('fs');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-  res.render('newsletter');
+  res.render('newsletter', { csrfToken: req.csrfToken() });
 });
 
 router.post('/', function (req, res, next) {

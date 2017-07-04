@@ -5,12 +5,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
 var csrf = require('csurf');
 var validator = require('express-validator');
-var session = require('express-session');
+var expressSession = require('express-session');
 
 var index = require('./routes/index');
 var newsletter = require('./routes/newsletter');
+var thankyou = require('./routes/thankyou');
 
 var app = express();
 
@@ -24,11 +26,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
-app.use(cookieParser());
-app.use(session({
-  secret: 'good',
-  cookie: { httpOnly: true }
-}));
+app.use(expressSession({
+  secret: 'test testv',
+  resave: false,
+  saveUninitialized: true
+}))
+app.use(cookieParser('goodsomething'));
 app.use(csrf());
 app.use(helmet());
 app.use(function (req, res, next) {
@@ -37,22 +40,9 @@ app.use(function (req, res, next) {
 });
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-// app.get('/', function (req, res, next) {
-//   res.render('index', {
-//     _csrfToken = req.csrfToken();
-//   });
-// });
-
-// app.use(function (req, res, next) {
-//   res.locals._csrf = req.csrfToken();
-//   console.log('111');
-//   next();
-//   console.log('222');
-// });
-
 app.use('/', index);
 app.use('/newsletter', newsletter);
+app.use('/thankyou', thankyou);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
